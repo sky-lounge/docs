@@ -1,0 +1,186 @@
+######################## default configuration ####################
+baseURL = "https://docs.skylounge.io/"
+title = "SkyLounge Documentation"
+theme = "godocs-1"
+# google analytics
+googleAnalytics = "G-D8KHP5SH10" # example : UA-123-45
+# disable language
+disableLanguages = [] # disable language from here
+
+# hugo outputs
+[outputs]
+home = [ "HTML", "JSON"]
+
+# render unsafe html
+[markup.goldmark.renderer]
+unsafe = true
+
+############################# Plugins ##############################
+
+# CSS Plugin
+[[params.plugins.css]]
+link = "plugins/bootstrap/bootstrap.min.css"
+[[params.plugins.css]]
+link = "plugins/search/auto-complete.css"
+[[params.plugins.css]]
+link = "plugins/featherlight/featherlight.min.css"
+
+
+# JS Plugin
+[[params.plugins.js]]
+link = "plugins/jQuery/jquery.min.js"
+[[params.plugins.js]]
+link = "plugins/bootstrap/bootstrap.min.js"
+[[params.plugins.js]]
+link = "https://kit.fontawesome.com/a09a8da395.js"
+attributes = "crossorigin='anonymous' defer='defer' data-search-pseudo-elements"
+[[params.plugins.js]]
+link = "plugins/masonry/masonry.min.js"
+[[params.plugins.js]]
+link = "plugins/featherlight/featherlight.min.js"
+[[params.plugins.js]]
+link = "plugins/clipboard/clipboard.min.js"
+[[params.plugins.js]]
+link = "plugins/search/auto-complete.js"
+[[params.plugins.js]]
+link = "plugins/search/search.js"
+[[params.plugins.js]]
+link = "plugins/search/lunr.min.js"
+[[params.plugins.js]]
+link = "plugins/search/fuse.min.js"
+[[params.plugins.js]]
+link = "plugins/search/mark.js"
+[[params.plugins.js]]
+link = "plugins/search/search-page.js"
+
+# site variables
+[params.variables]
+# Color Variables
+primary_color = "#4293DD"
+text_color = "#333"
+text_color_dark = "#222"
+text_color_light = "#999"
+body_color = "#fff"
+border_color = "#E2E2E2"
+black = "#000"
+white = "#fff"
+light = "#FBFBFB"
+
+# Font Variables
+primary_font = "Inter:wght@300;400;500;600;700;800"
+primary_font_type = "sans-serif" # [serif/sans-serif]
+secondary_font = "Roboto"
+secondary_font_type = "" # [serif/sans-serif]
+icon_font = "Font Awesome 5 Free"
+
+
+#################### default parameters ################################
+[params]
+# meta description
+author = "Resilient Scale"
+description = ""
+# contact form action
+contact_form_action = "//formspree.io/contact@resilientscale.io"
+# feedback form action
+feedback_form_action = "//formspree.io/contact@resilientscale.io"
+
+# logo
+logo = "images/skylounge-logo-oval.png"
+favicon = "images/favicon.png"
+main_site_link = "https://skylounge.io"
+logo_icon = "images/logo-icon.png"
+site_logo = "images/skylounge-logo-oval.png"
+docs_logo = "images/docs-logo.png"
+
+# Preloader
+[params.preloader]
+enable = false
+preloader = "" # use jpg, png, svg or gif format.
+
+# Navigation button
+# [[params.nav_button]]
+# style = "outline" # available style: solid, outline
+# label = "changelog"
+# link = "changelog"
+
+[[params.nav_button]]
+style = "solid" # available style: solid, outline
+label = "contact"
+link = "contact"
+
+
+############################# social site ########################
+[[params.social]]
+title = "twitter"
+icon = "fab fa-twitter" # fontawesome icon : https://fontawesome.com/icons
+link = "https://twitter.com/skyloungeio"
+
+[[params.social]]
+title = "github"
+icon = "fab fa-github" # fontawesome icon : https://fontawesome.com/icons
+link = "https://github.com/sky-lounge"
+
+# [[params.social]]
+# title = "linkedin"
+# icon = "fab fa-linkedin" # fontawesome icon : https://fontawesome.com/icons
+# link = "#"
+
+
+################################### English language #####################################
+[Languages.en]
+languageName = "En"
+languageCode = "en-us"
+weight = 1
+# copyright
+copyright = "Copyright &copy; 2022 [Resilient Scale, Inc](https://rscale.io). All Rights Reserved."
+
+# banner
+[Languages.en.banner]
+title = "SkyLounge Documentation"
+subtitle = "<b>Better Automation for Software Organizations</b><br />Enjoy the simplicity of integrated security and compliance throughout the full lifecycle. We make doing the right thing, the easy thing."
+image = "images/graphic.png"
+
+# feedback
+[Languages.en.feedback]
+title = "Did you find this information useful?"
+content = "Your feedback helps us improve our docs."
+positive_placeholder = "What did you like about this doc?"
+negative_placeholder = "What can we improve in this doc?"
+
+# call to action
+[Languages.en.call_to_action]
+enable = true
+title = "Still Didn't Find What You Need?"
+image = "images/chat-bubbles.png"
+content = "We welcome your questions or feedback. Please contact us to start the conversation."
+
+  # call to action button
+  [Languages.en.call_to_action.button]
+  enable = "true"
+  label = "Contact us"
+  link = "contact"
+
+
+############## English navigation ###############
+# [[Languages.en.menu.footer]]
+# name = "Changelog"
+# url = "changelog"
+# weight = 1
+
+# [[Languages.en.menu.footer]]
+# name = "Contact"
+# url = "contact"
+# weight = 1
+
+# [[Languages.en.menu.footer]]
+# name = "Privacy"
+# url = "privacy"
+# weight = 2
+
+# [[Languages.en.menu.footer]]
+# name = "Terms"
+# url = "terms"
+# weight = 1
+
+
+
