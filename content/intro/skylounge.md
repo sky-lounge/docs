@@ -9,3 +9,5 @@ SkyLounge provides better automation to software organizations. It introduces co
 SkyLounge is built on GitHub Actions and Workflows. It leverages well-known tools including GitHub repositories, pull requests, and issues. SkyLounge fits into your flow and fades into the background, requiring very little knowledge to use the system.
 
 With SkyLounge, organizations create shared understanding by establishing common patterns for building, deploying, testing, traceability, security, compliance, and more.
+
+CI/CD, security scans, compliance reporting and more. Automate it all centrally, then share it across the organization. And rest assured, SkyLounge will keep it all up to date.

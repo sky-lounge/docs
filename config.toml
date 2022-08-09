@@ -137,7 +137,7 @@ copyright = "Copyright &copy; 2022 [Resilient Scale, Inc](https://rscale.io). Al
 # banner
 [Languages.en.banner]
 title = "SkyLounge Documentation"
-subtitle = "<b>Better Automation for Software Organizations</b><br />Enjoy the simplicity of integrated security and compliance throughout the full lifecycle. We make doing the right thing, the easy thing."
+subtitle = "<b>Better Automation for Software Organizations</b><br />CI/CD, security scans, compliance reporting and more. Automate it all centrally, then share it across the organization. And rest assured, SkyLounge will keep it all up to date."
 image = "images/graphic.png"
 
 # feedback
