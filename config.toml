@@ -3,7 +3,7 @@ baseURL = "/"
 title = "SkyLounge Documentation"
 theme = "godocs-1"
 # google analytics
-googleAnalytics = "G-D8KHP5SH10" # example : UA-123-45
+# googleAnalytics = "G-D8KHP5SH10" # example : UA-123-45
 # disable language
 disableLanguages = [] # disable language from here
 
