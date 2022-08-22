@@ -12,6 +12,18 @@ The first step is choosing the blueprint you want to use. You can browse the ava
             
 Jobs and steps are configured by providing a URI to a file in GitHub. We refer to these files as job or step definitions. The job or step definition can reside in your repository (for implementations you provide), your organization's `skylounge-definitions` repository (for reusable jobs/steps), or the SkyLounge provided `skylounge-definitions` repository.
 
+Jobs and steps that reside in an application repository, they must reside in a `skylounge` directory in order for SkyLounge to efficiently identify changes. For example, you may have the following:
+
+```
+- skylounge/
+  - jobs/
+    - integration-test.yml
+    ...
+  - steps/
+    - build-container.yml
+    ...
+```
+
 #### Implementing Jobs
 
 Composable job definitions follow the [GitHub job specification](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_id). In addition, you need to start the job file with the name of the job. The example below shows an excerpt from an `integration-test` job implementation. The remainder of the job definition follows the GitHub job specification. Additionally, you can use SkyLounge parameters in job files.
