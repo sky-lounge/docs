@@ -12,7 +12,7 @@ The first step is choosing the blueprint you want to use. You can browse the ava
             
 Jobs and steps are configured by providing a URI to a file in GitHub. We refer to these files as job or step definitions. The job or step definition can reside in your repository (for implementations you provide), your organization's `skylounge-definitions` repository (for reusable jobs/steps), or the SkyLounge provided `skylounge-definitions` repository.
 
-Jobs and steps that reside in an application repository, they must reside in a `skylounge` directory in order for SkyLounge to efficiently identify changes. For example, you may have the following:
+Jobs and steps that reside in an application repository reside in a `skylounge` directory in the root of the repository in order for SkyLounge to identify changes to the files. For example, you could have the following:
 
 ```
 - skylounge/
