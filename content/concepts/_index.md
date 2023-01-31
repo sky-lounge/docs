@@ -21,7 +21,7 @@ A blueprint is a yaml file specifying one or more workflow templates to be appli
 SkyLounge extends GitHub workflows with three capabilities:
 
 * **skylounge-job**: The ability to define [jobs](https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow) to be provided by development teams.
-* **skylounte-step**: The ability to define [steps](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsteps) to be provided by the development teams.
+* **skylounge-step**: The ability to define [steps](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsteps) to be provided by the development teams.
 * **parameters**: The ability to inject parameters/configuration into workflow files at three levels: job, workflow, or blueprint.
 
 ### skylounge.yml
