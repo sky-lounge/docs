@@ -16,7 +16,7 @@ Once you have chosen the appropriate blueprint, download the associated `skyloun
 
 ### Configuring the Automation
 
-The next step is to configure your chosen blueprint to work with your repository. You do this by adding and committing the appropriate `skylounge.yml` file at the root of your repository. The `skylounge.yml` for your chosen blueprint that you downloaded from the [dashboard](https://dashboard.skylounge.io) is pre-filled with the required URI to the blueprint and keys for all the data you need to provide to complete the configuration. All you need to do is fill in the values for these keys.
+The next step is to configure your chosen blueprint to work with your repository. You do this by adding and committing the appropriate `skylounge.yml` file at the root of your repository. The `skylounge.yml` for your chosen blueprint that you downloaded from the [dashboard](https://dashboard.skylounge.io) is pre-filled with the required URI to the blueprint and keys for all the data required to complete the configuration. All you need to do is fill in the values for these keys.
 
 #### The `skylounge.yml`
 
@@ -31,7 +31,7 @@ params:        # OPTIONAL key:value mapping available globally.
     ...
 ```
 
-Only the `blueprint-uri` key is required. In theory, the other keys can be omitted if none of the workflows requires additional configuration or parameters. But in practice, all three keys will usually need to be completed.
+Only the `blueprint-uri` key is required. In theory, the other keys can be omitted if none of the workflows requires additional configuration or parameters. But in practice, all three keys will usually need to be filled in.
 
 - `blueprint-uri:`
 
@@ -50,28 +50,20 @@ workflows:
     ...
 ```
 
-Each workflow item specifies the name of a single blueprint workflow with a `workflow:` key, collects job configurations with a `jobs:` key, and optionally provides a `params:` key with parameters that are available to all jobs in this workflow.
+Each workflow item must specify the name of a single workflow with a `workflow:` key, may collect job configurations with a `jobs:` key, and may provide a `params:` key with parameters that are available to all jobs in this workflow.
 
 Workflow items are only required for workflows that require configuration.
 
 - `jobs:`
 
-The `jobs:` key collects configurations for one more individual jobs. Job configuration items can take either of two forms.
+The `jobs:` key collects configurations for one more individual jobs with a workflow. Each job configuration item must specify the name of a `skylounge-job` with a `job:` key, may provide a `uri:` key with a URI to a file in GitHub that defines the `skylounge-job`, may provide a `steps:` key collecting configurations of one or more steps within the job, and may provide a `params:` key with parameters that are available within the `skylounge-job`.
 
-In the first form, each job configuration item specifies the name of a `skylounge-job` with a `job:` key, provides a `uri:` key with a URI to a file in GitHub that defines the `skylounge-job`, and optionally provides a `params:` key with parameters that are available within the `skylounge-job`. As explained below, a `skylounge-job` is a composable / re-usable job defined using a SkyLounge extension of the [GitHub job specification](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_id).
-
-```yaml
-jobs:
-- job:         # REQUIRED name of this `skylounge-job`.
-  uri:         # URI to `skylounge-job` file in GitHub.
-  params:      # OPTIONAL key:value mapping available within this job.
-    ...
-```
-In the second form, each job configuration item specifies the name of a single job with the `job:` key, collects step configurations with a `steps:` key, and optionally provides a `params:` key with parameters that are available to all steps in this job.
+As explained below, a `skylounge-job` is a composable / re-usable job defined using a SkyLounge extension of the [GitHub job specification](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_id). Workflows using a `skylounge-job` definition refer to it with the name given in the `job:` key.
 
 ```yaml
 jobs:
 - job:         # REQUIRED name of this `skylounge-job`.
+  uri:         # OPTIONAL URI to `skylounge-job` file in GitHub.
   steps:       # OPTIONAL array of items configuring steps.
   - ...
   params:      # OPTIONAL key:value mapping available within this job.
@@ -80,7 +72,9 @@ jobs:
 
 - `steps:`
 
-The `job.steps:` key collects configurations of one or more steps within a job. Each step configuration item specifies the name of a `skylounge-step` with a `step:` key, provides a `uri:` key with a URI to a file in GitHub that defines one or more steps within the job, and optionally provides a `params:` key with parameters that are available within the `skylounge-job`. As explained below, a `skylounge-step` is a composable / re-usable step defined using a SkyLounge extension of the [GitHub steps specification](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsteps).
+The `steps:` key collects configurations of one or more steps within a job. Each step configuration item must specify the name of a `skylounge-step` with a `step:` key and must provide a `uri:` key with a URI to a file in GitHub that defines one or more steps within the job.
+
+As explained below, a `skylounge-step` is a composable / re-usable step defined using a SkyLounge extension of the [GitHub steps specification](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsteps). Workflows using a `skylounge-step` definition refer to it with the name given in the `step:` key.
 
 ```yaml
 steps:
@@ -92,7 +86,7 @@ steps:
 
 - `params:`
 
-The `params:` key may be used at any or all levels of the `skylounge.yml` file. It is a key:value mapping that sets the (constant) value of parameters that used into the workflows and / or jobs and steps at the same level or below the `params:` within the `yaml` structure. We detail below how to *use* a parameter inside a workflow or a job or step definition, but *setting* a parameter is just matter of naming the parameter in the `<key>` and providing its <value>.
+The `params:` key may be used at blueprint, workflow, or job levels of the `skylounge.yml` file. It is a *key:value* mapping that sets the (constant) value of parameters that used into the workflows and / or jobs and steps at the same level or below the `params:` within the `yaml` structure. We detail below how to *use* a parameter inside a workflow or a job or step definition, but *setting* a parameter is just matter of naming the parameter in the `<key>` and providing its <value>.
 
 ```yaml
 params:
@@ -124,7 +118,9 @@ skylounge\
 
 A `skylounge-job` definition is a `yaml` file following the [GitHub job specification](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_id), with one extension.
 
-As a `yaml` file, it must begin with three hyphens ("`---`"). Then it must have exactly one top-level key, which is the name of the `skylounge-job` being defined. (This corresponds to the `<job_id>` in the GitHub job specification.) The rest of the file follows the GitHub job specification, with the extension that it may also use SkyLounge parameters. The job will be inserted into the workflow with any SkyLounge parameters interpolated into it using values set in the `skylounge.yml` file for this `skylounge-job`, the workflow containing it, or globally.
+As a `yaml` file, it must begin with three hyphens ("`---`"). Then it must have exactly one top-level key, which is the name of the `skylounge-job` being defined. (This corresponds to the `<job_id>` in the GitHub job specification.) The rest of the file follows the GitHub job specification, with the extension that it may also use SkyLounge parameters.
+
+A workflow using a `skylounge-job` definition refers to it by the name of the `skylounge-job` given at the top level of the `yaml` structure. The job will be inserted into the workflow with any SkyLounge parameters interpolated into it using values set in the `skylounge.yml` file for this `skylounge-job`, the workflow or blueprint containing it.
 
 The example below shows an excerpt from an `integration-test` job, without any SkyLounge parameters.
 
@@ -144,7 +140,9 @@ integration-test: # The name of the `skylounge-job`
 
 A `skylounge-step` definition file is a `yaml` file following the [GitHub steps specification](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsteps), with one extension.
 
-As a `yaml` file, it must begin with three hyphens ("`---`"). Then it must have exactly one top-level key, which is "`steps:`" (This corresponds to the `steps` key in the GitHub steps specification.) The rest of the file follows the GitHub steps specification, with the extension that it may also use SkyLounge parameters. The definition can contain multiple steps. All steps will be inserted into the workflow with any SkyLounge parameters interpolated into it using values set in the `skylounge.yml` file for this `skylounge-step`, the job or workflow containing it, or globally.
+As a `yaml` file, it must begin with three hyphens ("`---`"). Then it must have exactly one top-level key, which is "`steps:`" (This corresponds to the `steps` key in the GitHub steps specification.) The rest of the file follows the GitHub steps specification, with the extension that it may also use SkyLounge parameters. The definition can contain multiple steps.
+
+A workflow uses a `skylounge-step` definition when a `skylounge-job` refers to it using the `step:` name and `uri:` within a `skylounge-job` used in a workflow. All steps will be inserted into the `skylounge-job` within the workflow, with any SkyLounge parameters interpolated into it using values set in the `skylounge.yml` file for the job, workflow, or blueprint containing it.
 
 The example below shows an excerpt from a `gradlew` build step, with a SkyLounge parameter specifying the `java-version`.
 
@@ -168,8 +166,8 @@ steps:
 
 SkyLounge parameters extend the GitHub Actions syntax to enable configuration of composable `skylounge-job`s and `skylounge-step`s.
 
-Parameters are used in workflow templates, or `skylounge-job` or `skylounge-step` definitions by surrounding a parameter name with double quote parenthesis: `((...))`. Parameter values are configured in the `skylounge.yml` file in your repository. For this reason, **do not use parameters to configure sensitive information**. Sensitive information should be stored using [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow) or another secure mechanism.
+Parameters are used in workflow templates or `skylounge-job` definitions by surrounding a parameter name with double quote parenthesis: `((...))`. Parameter values are configured in the `skylounge.yml` file in your repository. For this reason, **do not use parameters to configure sensitive information**. Sensitive information should be stored using [GitHub Secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets#using-encrypted-secrets-in-a-workflow) or another secure mechanism.
 
-The `skylounge.yml` file supports configuring parameters at the `skylounge-step`, `skylounge-job`, workflow, and blueprint level. The most specific value takes precedence (step over job over workflow over blueprint). **[KPE: is this correct? Parameters cannot be set at the step level in the skylounge.yml file.]**
+The `skylounge.yml` file supports configuring parameters at the `skylounge-job`, workflow, and blueprint (global) level. The most specific value takes precedence (job over workflow over blueprint). **[KPE: is this correct? Parameters cannot be set at the step level in the skylounge.yml file.]**
 
 Parameters that start with an underscore (`_`) are optional and can be omitted. For example, `((_optional_parameter))` can be omitted.
