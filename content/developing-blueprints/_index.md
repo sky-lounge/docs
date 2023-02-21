@@ -17,7 +17,7 @@ The files for each blueprint should be stored in the `blueprints` directory in a
 
 ### Registering your definitions repository
 
-Register your `skylounge-definitions` repository with through the GitHub interface the same way you would register an application. To do this:
+Register your `skylounge-definitions` repository through the GitHub interface the same way you would register an application. To do this:
 
 * Go to your organization in GitHub and click "Settings"
 * Under "Integrations" on the left-hand side, click "GitHub Apps"
