@@ -45,6 +45,55 @@ Here is an example blueprint structure:
             |- production.yml
 ```
 
+##### job definitions
+
+Job definitions can be in any directory structure below the `jobs` directory. The schema of a job definition is exactly the same as a [GitHub job](https://docs.github.com/en/actions/using-jobs/using-jobs-in-a-workflow) nested under the `jobs` tag in workflow, except in a standalone file. A job definition file contains a single job.
+
+For example, a job definition to deploy a container image to Google Cloud Run be defined in a file named `deploy.yml` located at `your-github-org/skylounge-library/jobs/gcp/cloud-run/deploy/deploy.yml`. 
+
+```
+deploy:
+  needs: build
+  name: Deploy to Cloud Run
+  runs-on: ubuntu-latest
+  env:
+    REGISTRY: ((registry_url))
+  steps:
+    - name: Checkout branch
+      uses: actions/checkout@v3
+    - name: Set image and service name
+      run: |
+        sed -i -e 's%${IMAGE_NAME}%'"$IMAGE_NAME"'%g' ./service.yaml
+        sed -i -e 's%${GCP_PROJECT}%'"$GCP_PROJECT"'%g' ./service.yaml
+      env:
+        IMAGE_NAME: "${{ env.REGISTRY }}/${{ github.event.repository.name }}:${{ github.sha }}"
+        GCP_PROJECT: ((gcp_project))
+...
+```
+
+##### step definitions
+
+Step definitions can be in any directory structure below the `steps` directory. The schema of a step definition is exactly the same as the [`steps` block](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsteps) in a GitHub job, except in a standalone file. A step definition may contain more than one step.
+
+For example, a step definition which uses [pack](https://buildpacks.io/docs/tools/pack/) to build a container image for an app using gradle wrapper could be defined in a file named `build-container-image.yml` located at `your-github-org/skylounge-library/steps/pack/gradlew/build-container-image.yml`. 
+
+```
+---
+steps:
+  - name: Setup Pack
+    uses: buildpacks/github-actions/setup-pack@v4.8.0
+  - name: Pack build
+    run: |
+      set -x
+      pack build --volume $HOME/.gradle:/home/cnb/.gradle:rw \
+        ${{ env.IMAGE_NAME }} \
+        --builder paketobuildpacks/builder:base \
+        --env BP_JVM_VERSION=${{ env.BP_JVM_VERSION}} \
+        --path ${{ env.JAR_PATH }}
+    env:
+      BP_JVM_VERSION: ((jvm_version))
+      JAR_PATH: ((jar_path))
+```
 
 
 ### Registering your definitions repository
