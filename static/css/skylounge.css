@@ -1,0 +1,21 @@
+.sidelist .active>a {
+  font-weight: 700 !important;
+  color: #4293dd !important;
+}
+
+.sidenav .parent ul li.active>a {
+  margin-left: 0px !important;
+}
+
+.fa,
+.fa-brands,
+.fa-classic,
+.fa-regular,
+.fa-sharp,
+.fa-solid,
+.fab,
+.far,
+.fas {
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5 !important;
+}

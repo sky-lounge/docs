@@ -1,10 +1,4 @@
----
-title: "Developing Blueprints"
-icon: "fa-solid fa-cubes"
-description: "Build your automation and share it across your organization."
-type : "docs"
-weight: 5
----
+
 
 If you can author GitHub workflows, you can author SkyLounge blueprints. Blueprints are stored in a structured GitHub repository we refer to as a 'library repository'. Library repositories are used to store blueprints, workflow templates, and job/step definitions.
 

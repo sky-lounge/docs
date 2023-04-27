@@ -110,10 +110,6 @@ link = "contact"
 
 
 ############################# social site ########################
-[[params.social]]
-title = "twitter"
-icon = "fab fa-twitter" # fontawesome icon : https://fontawesome.com/icons
-link = "https://twitter.com/skyloungeio"
 
 [[params.social]]
 title = "github"
@@ -132,7 +128,7 @@ languageName = "En"
 languageCode = "en-us"
 weight = 1
 # copyright
-copyright = "Copyright &copy; 2022 [Resilient Scale, Inc](https://rscale.io). All Rights Reserved."
+copyright = "Copyright &copy; 2022-2023 [Resilient Scale, Inc](https://rscale.io). All Rights Reserved."
 
 # banner
 [Languages.en.banner]
