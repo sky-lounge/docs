@@ -165,5 +165,3 @@ params:
 
 The development team can fill in the additional details for the managed repository before committing the file.
 
-
-
