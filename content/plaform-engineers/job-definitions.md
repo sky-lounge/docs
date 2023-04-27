@@ -4,7 +4,7 @@ layout: "docs"
 weight: 4
 ---
 
-A job definition is a `yaml` file following the [GitHub job specification](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_id), with two key differences. First, it must have exactly one top-level key: the name of the job defined as per the skylounge.yml. Additionally, the file may use SkyLounge parameters (defined below). A job definition may only define a single job.
+A job definition is a `yaml` file following the [GitHub job specification](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_id), with two key differences. First, it must have one top-level key: the job name defined as per the skylounge.yml. Additionally, the file may use SkyLounge parameters (defined below). A job definition may only define a single job.
 
 The example below shows an excerpt from a job to deploy to Google Cloud Run.
 
