@@ -8,7 +8,7 @@ A blueprint profile directs SkyLounge on how to apply blueprints, job and step d
 
 ### Managing blueprint profiles
 
-Blueprint profiles must be stored in a repository named `skylounge-library`. Blueprint profiles are configured in `/blueprints/profiles.yml`. The library repository must be registered with SkyLounge. The `profiles.yml` specifies all blueprint profiles for the organization. 
+Blueprint profiles must be stored in a repository named `skylounge-library`. Blueprint profiles are configured in `/profiles` directory. The library repository must be registered with SkyLounge. Each profile resides in its own file. The filename minus `.yml` is used as the label (ex. `webapp` is the label for the profile in `webapp.yml`).
 
 Labels can be used to select blueprints as well as job and step definitions. Additionally, blueprint profiles can be used to provide configuration values for parameters at the blueprint, workflow, job, or step level. Labels used in blueprint profiles are arbitrary strings and can be any value.
 
@@ -24,57 +24,55 @@ In this example, the organization:
 * Allows deployment to Google Cloud Run or the Cloud.gov platform
 
 ```yaml
-Path: <your-organization>/skylounge-library/blueprints/profiles.yml
+Path: <your-organization>/skylounge-library/profiles/webapp.yml
 
 ---
-blueprints:
-  - label: webapp # The blueprint below will be applied when the repository has the `webapp` label.
-    uri: sky-lounge/skylounge-library/blueprints/fisma/web-app/blueprint.yml # This is the blueprint uri
-    params:
-      registry_url: us-central1-docker.pkg.dev/skylounge-common/skylounge-registry # This parameter will be set at the blueprint level in generated skylounge.yml files. 
-    workflows:
-      development:
-        jobs:
-          build:
-            - steps:
-                unit-test:
-                  - label: gradlew # This step definition will be used for the unit-test step in the build job of the development workflow when the repository has the `gradlew` label.
-                    uri: sky-lounge/skylounge-library/steps/unit-test/gradlew/unit-test.yml
-                    params:
-                      jvm_version: 17 # This parameter will be included in the skylounge.yml for the step.
-                  - label: nginx # This step definition will be used for the unit-test step in the build job of the development workflow when the repository has the `nginx` label.
-                    uri: sky-lounge/skylounge-library/steps/unit-test/nginx/unit-test.yml
-                build-container-image:
-                  - label: gradlew # This step definition will be used for the build-container-image step in the build job of the development workflow when the repository has the `gradlew` label.
-                    uri: sky-lounge/skylounge-library/steps/pack/gradlew/build.yml
-                    params:
-                      jvm_version: 17 # This parameter will be included in the skylounge.yml for the step.
-                  - label: nginx # This step definition will be used for the build-container-image step in the build job of the development workflow when the repository has the `nginx` label.
-                    uri: sky-lounge/skylounge-library/steps/pack/nginx/build.yml
-          deploy:
-            - label: cloud-run # This job will be used for deployment in the development workflow when the repository has the `cloud-run` label.
-              uri: sky-lounge/skylounge-library/jobs/gcp/cloud-run/deploy/deploy.yml
-              params: # These parameters will be included in the skylounge.yml for the deploy job.
-                tf_state_bucket: tfstate.skylounge.dev
-                dns_zone_name: skyloungedev
-                cloud_run_location: us-central1
-            - label: cloud-gov # This job will be used for deployment in the development workflow when the repository has the `cloud-gov` label.
-              uri: sky-lounge/skylounge-library/jobs/cloudfoundry/deploy/deploy.yml
-        params: # This parameter will be included in the skylounge.yml for the development workflow.
-          project: skyloungedev
-      production:
-        jobs:
-          deploy:
-            - label: cloud-run # This job will be used for deployment in the production workflow when the repository has the `cloud-run` label.
-              uri: sky-lounge/skylounge-library/jobs/gcp/cloud-run/deploy/deploy.yml
-              params:
-                tf_state_bucket: tfstate.skylounge.io
-                dns_zone_name: skyloungeio
-                cloud_run_location: us-central1
-            - label: cloud-gov # This job will be used for deployment in the production workflow when the repository has the `cloud-gov` label.
-              uri: sky-lounge/skylounge-library/jobs/cloudfoundry/deploy/deploy.yml
-        params: # This parameter will be included in the skylounge.yml for the development workflow.
-          project: skyloungeio
+uri: sky-lounge/skylounge-library/blueprints/fisma/web-app/blueprint.yml # This is the blueprint uri
+params:
+  registry_url: us-central1-docker.pkg.dev/skylounge-common/skylounge-registry # This parameter will be set at the blueprint level in generated skylounge.yml files. 
+workflows:
+  development:
+    jobs:
+      build:
+        - steps:
+            unit-test:
+              - label: gradlew # This step definition will be used for the unit-test step in the build job of the development workflow when the repository has the `gradlew` label.
+                uri: sky-lounge/skylounge-library/steps/unit-test/gradlew/unit-test.yml
+                params:
+                  jvm_version: 17 # This parameter will be included in the skylounge.yml for the step.
+              - label: nginx # This step definition will be used for the unit-test step in the build job of the development workflow when the repository has the `nginx` label.
+                uri: sky-lounge/skylounge-library/steps/unit-test/nginx/unit-test.yml
+            build-container-image:
+              - label: gradlew # This step definition will be used for the build-container-image step in the build job of the development workflow when the repository has the `gradlew` label.
+                uri: sky-lounge/skylounge-library/steps/pack/gradlew/build.yml
+                params:
+                  jvm_version: 17 # This parameter will be included in the skylounge.yml for the step.
+              - label: nginx # This step definition will be used for the build-container-image step in the build job of the development workflow when the repository has the `nginx` label.
+                uri: sky-lounge/skylounge-library/steps/pack/nginx/build.yml
+      deploy:
+        - label: cloud-run # This job will be used for deployment in the development workflow when the repository has the `cloud-run` label.
+          uri: sky-lounge/skylounge-library/jobs/gcp/cloud-run/deploy/deploy.yml
+          params: # These parameters will be included in the skylounge.yml for the deploy job.
+            tf_state_bucket: tfstate.skylounge.dev
+            dns_zone_name: skyloungedev
+            cloud_run_location: us-central1
+        - label: cloud-gov # This job will be used for deployment in the development workflow when the repository has the `cloud-gov` label.
+          uri: sky-lounge/skylounge-library/jobs/cloudfoundry/deploy/deploy.yml
+    params: # This parameter will be included in the skylounge.yml for the development workflow.
+      project: skyloungedev
+  production:
+    jobs:
+      deploy:
+        - label: cloud-run # This job will be used for deployment in the production workflow when the repository has the `cloud-run` label.
+          uri: sky-lounge/skylounge-library/jobs/gcp/cloud-run/deploy/deploy.yml
+          params:
+            tf_state_bucket: tfstate.skylounge.io
+            dns_zone_name: skyloungeio
+            cloud_run_location: us-central1
+        - label: cloud-gov # This job will be used for deployment in the production workflow when the repository has the `cloud-gov` label.
+          uri: sky-lounge/skylounge-library/jobs/cloudfoundry/deploy/deploy.yml
+    params: # This parameter will be included in the skylounge.yml for the development workflow.
+      project: skyloungeio
 ```
 
 Given the following skylounge.yml template for the blueprint:
