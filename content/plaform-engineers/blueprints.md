@@ -58,6 +58,9 @@ description: |
   The description shows in dashboard on the blueprints tab.
 documentation: |
   This field is for detailed documentation, viewable via the `blueprint details` link in the dashboard.
+hide-in-environments: # A list of environments to hide this blueprint in. It will not be shown in the dashboard. Can be `development` and/or `production`.
+  - development
+  - production
 tags: # A list of tags used as visual cues in the dashboard.
   - container-build
   - virus-scan
