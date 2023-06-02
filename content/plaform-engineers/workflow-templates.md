@@ -48,3 +48,5 @@ jobs:
     - uses: actions/upload-artifact@v3
     ...
 ```
+
+Step names that begin with an underscore (`_`) are optional. If omitted from the skylounge.yml, the step will be omitted.
